@@ -21,14 +21,14 @@ class Database:
                 "results": os.path.join(base_dir, "results.json"),
                 "users": os.path.join(base_dir, "users.json")
             }
-             self.initialize()
+            self.initialize()
 
     def initialize(self):
        for key, path in self.files.items():
           if not os.path.exists(path):
              if key == "u":
                     default = {"admin": "123"}
-                elif key == "q":
+             elif key == "q":
                     default = [
                         {
                             "id": 0,
@@ -43,7 +43,14 @@ class Database:
                             "answer": "C) 45.33%"
                         }
                     ]
-                    else:
+          else:
                     default = []
-                     os.makedirs(os.path.dirname(path), exist_ok=True)
-                self.save(key, default)
+                    os.makedirs(os.path.dirname(path), exist_ok=True)
+                    self.save(key, default)
+    def load(self, key):
+        with open(self.files[key], 'r') as f:
+            return json.load(f)
+
+    def save(self, key, data):
+        with open(self.files[key], 'w') as f:
+            json.dump(data, f, indent=4)
