@@ -43,3 +43,5 @@ class Database:
                             "answer": "C) 45.33%"
                         }
                     ]
+                    else:
+                    default = []
