@@ -45,3 +45,5 @@ class Database:
                     ]
                     else:
                     default = []
+                     os.makedirs(os.path.dirname(path), exist_ok=True)
+                self.save(key, default)
