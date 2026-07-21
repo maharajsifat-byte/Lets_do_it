@@ -23,4 +23,6 @@ class Database:
             }
              self.initialize()
 
-    def initialize(self):A
+    def initialize(self):
+       for key, path in self.files.items():
+          if not os.path.exists(path):
