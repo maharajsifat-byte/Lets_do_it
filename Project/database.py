@@ -26,3 +26,13 @@ class Database:
     def initialize(self):
        for key, path in self.files.items():
           if not os.path.exists(path):
+             if key == "u":
+                    default = {"admin": "123"}
+                elif key == "q":
+                    default = [
+                        {
+                            "id": 0,
+                            "question": "According to 2023 global statistics, what is Bangladesh's rank in Rice production?",
+                            "options": ["A) 1st Position", "B) 2nd Position", "C) 3rd Position", "D) 4th Position"],
+                            "answer": "C) 3rd Position"
+                        },
