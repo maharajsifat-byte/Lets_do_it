@@ -10,3 +10,8 @@ class Database:
             "results": os.path.join(parent_dir, "data", "results.json"),
             "users": os.path.join(parent_dir, "data", "users.json"),
         }
+        try : 
+            test_file = os.path.join(parent_dir, "test_write.tmp")
+            with open(test_file, "w") as f:
+             f.write("test")
+            
