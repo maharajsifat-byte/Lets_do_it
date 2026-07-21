@@ -21,3 +21,6 @@ class Database:
                 "results": os.path.join(base_dir, "results.json"),
                 "users": os.path.join(base_dir, "users.json")
             }
+             self.initialize()
+
+    def initialize(self):A
