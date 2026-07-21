@@ -15,4 +15,9 @@ class Database:
             with open(test_file, "w") as f:
              f.write("test")
             os.remove(test_file)
-       
+        except Exception:
+            self.files = {
+                "questions": os.path.join(base_dir, "questions.json"),
+                "results": os.path.join(base_dir, "results.json"),
+                "users": os.path.join(base_dir, "users.json")
+            }
