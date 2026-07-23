@@ -9,3 +9,6 @@ class StyledButton(tk.Button):
             activebackground=C_HOVER_COLOR, activeforeground=BG_DARK,
             font=FONT_REG, bd=0, cursor="hand2", padx=15, pady=8, **kwargs
         )
+        class StyledEntry(ttk.Entry):
+            def __init__(self, parent, **kwargs):
+              super().__init__(parent, font=FONT_REG, **kwargs)
