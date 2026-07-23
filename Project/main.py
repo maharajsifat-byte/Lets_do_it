@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 
 from database import Database
-from manager import Manager
+from manager import QuestionManagerManager
 from stats_engine import StatsEngine
 from pdf_parser import PDFparser 
 from gui_components import StyledButton, QuestionFormDialog
@@ -122,8 +122,94 @@ class MainApp:
         welcome_frame =tk.Frame(self.content, bg=BG_DARK)
         welcome_frame.pack(expand=True, fill="both")
 
-        tk.Label(welcone_frame, text=f"Welcome Back, {self.current_user}!",
+        tk.Label(welcome_frame, text=f"Welcome Back, {self.current_user}!",
                  font=("Seoge UI", 28, "bold"), bg=BG_DARK, fg=TEXT_WHITE).pack(pady=(220,10))
 
         tk.Label(welcome_frame, text="Varsity Quiz & Academic Result System",
                  font=("Seoge UI", 12), bg=BG_DARK, fg="grey").pack()
+
+    def quiz_view(self):
+        self.quiz_data=self.db.load("q")
+        if not self.quiz_data:
+            return messagebox.showwarning("Empty Bank", "No questions available. Please add some questions first.")
+        self.q_idx=0
+        self.score=0
+        self.render_q()
+
+    def render_q(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+        q=self.quiz_data[self.q_idx]
+
+        progress_frame=tk.Frame(self.content, bg=BG_DARK)
+        progress_frame.pack(pady=(40,0), padx=50, fill="x")
+
+        tk.Label(progress_frame, text=f"Question {self.q_idx+1} of {len(self.quiz_data)}",
+                 font=("Seoge UI", 10, "bold"), bg=BG_DARK, fg=ACCENT_COLOR).pack(side="left")
+
+        card=tk.Frame(self.content, bg=CARD_BG, padx=40, pady=40)
+        card.pack(pady=20, padx=50, fill="both", expand=True)
+
+        tk.Label(card, text=q['question'], font=("Seoge UI", 15, "bold"), bg=CARD_BG, fg=TEXT_WHITE, wraplength=700, justify="left").pack(anchor="w", pady=(0,25))
+
+        self.selected_option=tk.StringVar(value="")
+        for o in q['options']:
+            rb_frame=tk.Frame(card, bg=CARD_BG)
+            rb_frame.pack(anchor="w", fill="x", pady=5)
+
+            rb=tk.Radiobutton(rb_frame, text=o, variable=self.selected_option, value=o,bg=CARD_BG, fg=TEXT_WHITE,
+                             selectcolor=BG_DARK, activebackground=CARD_BG, activeforeground=ACCENT_COLOR, font=("Segoe UI", 11),cursor="hand2")
+            rb.pack(anchor="w", padx=10, pady=5)
+
+        btn_frame=tk.Frame(self.content, bg=BG_DARK)
+        btn_frame.pack(pady=(0,40), fill="x", padx=50)
+
+        StyledButton(btn_frame, text="SUBMIT & NEXT ➔", command=self.submit_answer).pack(side="right")
+
+    def submit_answer(self):
+        if not self.selected_option.get():
+            messagebox.showwarning("Selection Required", "PLease select an option to proceed.")
+            return
+
+        if self.selected_option.get() == self.quiz_data[self.q_idx]['answer']: 
+                    self.score += 1
+
+        self.q_idx +=1
+        if self.q_idx < len(self.quiz_data):
+            self.render_q()
+        else:
+            res=self.db.load("r")
+            res.append({
+                "name": self.current_user,
+                "score": self.score,
+                "total": len(self.quiz_data),
+                "data": datetime.now().strftime("%Y-%m-%d %H:%M")
+            })
+            self.db.save("r",res)
+
+            percentage= (self.score / len(self.quiz_data))*100
+            feedback = "excellent performance!" if percentage >= 80 else "Good job! Keep practicing." if percentage >= 50 else "Keep studying and try again!"
+
+            messagebox.showinfo("Quiz Completed", f"Quiz Over!\n\nYour Score: {self.score}/{len(self.quiz_data)}({percentage:.1f}%)\n\n{feedback}")
+            self.welcome_view()
+
+    def manager_view(self):
+            for w in self.content.winfo_children(): 
+                w.destroy()
+    
+            manager_frame = tk.Frame(self.content, bg=BG_DARK, padx=30, pady=30)
+            manager_frame.pack(fill="both", expand=True)
+    
+            header_frame = tk.Frame(manager_frame, bg=BG_DARK)
+            header_frame.pack(fill="x", pady=(0, 20))
+    
+            tk.Label(header_frame, text="QUESTION MANAGER", font=("Segoe UI", 18, "bold"), bg=BG_DARK, fg=TEXT_WHITE).pack(side="left")
+    
+            controls_frame = tk.Frame(manager_frame, bg=BG_DARK)
+            controls_frame.pack(fill="x", pady=(0, 15))
+    
+            self.search_ent = ttk.Entry(controls_frame, width=30, font=FONT_REG)
+            self.search_ent.pack(side="left", padx=(0, 10))
+    
+            
