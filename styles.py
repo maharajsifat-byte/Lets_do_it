@@ -5,3 +5,7 @@ SUCCESS_COLOR = "#225BC5"
 CARD_BG_COLOR = "#1E293B"
 TEXT_COLOR = "#E2E8F0"
 C_HOVER_COLOR = "#11416E"
+
+FONT_H1 = ("Segoe UI", 24, "bold")
+FONT_H2 = ("Segoe UI", 14, "bold")
+FONT_REG = ("Segoe UI", 11)
