@@ -261,4 +261,25 @@ class MainApp:
             messagebox.showinfo("Success", "Question added successfully!")
 
         QuestionFormDialog(self.root, "Add New Question", on_save)
+
+    def update_q_flow(self):
+        selected = self.tree.selection()
+        if not selected:
+            messagebox.showwarning("Selection Required", "Please select a question from the table.")
+            return
+
+        item = self.tree.item(selected[0])
+        q_id = int(item["values"][0])
         
+        all_qs = self.manager.get_all_questions()
+        q_data = next((q for q in all_qs if q["id"] == q_id), None)
+        
+        if not q_data:
+            return
+
+        def on_save(q_text, opts, ans):
+            self.manager.update_question(q_id, q_text, opts, ans)
+            self.load_tree_data()
+            messagebox.showinfo("Success", "Question updated successfully!")
+
+        QuestionFormDialog(self.root, "Update Question", on_save, initial_data=q_data) 
