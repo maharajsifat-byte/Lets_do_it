@@ -1,13 +1,57 @@
 [
-    {
-        "id": 0,
-        "question": "WORLD CUP WINNER 2026 ?",
-        "options": [
-            "A) ENGLAND",
-            "B) SPAIN",
-            "C) BRAZIL",
-            "D) FRANCE"
-        ],
-        "answer": "B) SPAIN"
-    }
+  {
+    "question": "WHICH COUNTRY WON THE FIFA WORLD CUP IN 2022?",
+    "options": ["A) BRAZIL", "B) FRANCE", "C) ARGENTINA", "D) CROATIA"],
+    "answer": "C) ARGENTINA"
+  },
+  {
+    "question": "WHO IS WIDELY REGARDED AS THE TOP SCORER IN FIFA WORLD CUP HISTORY?",
+    "options": ["A) LIONEL MESSI", "B) MIROSLAV KLOSE", "C) RONALDO NAZARIO", "D) PELE"],
+    "answer": "B) MIROSLAV KLOSE"
+  },
+  {
+    "question": "WHAT IS THE NATIONAL SPORT OF BANGLADESH?",
+    "options": ["A) CRICKET", "B) FOOTBALL", "C) KABADDI", "D) HOCKEY"],
+    "answer": "C) KABADDI"
+  },
+  {
+    "question": "IN WHICH YEAR DID BANGLADESH GAIN INDEPENDENCE?",
+    "options": ["A) 1969", "B) 1970", "C) 1971", "D) 1972"],
+    "answer": "C) 1971"
+  },
+  {
+    "question": "WHICH RIVER DELTA SYSTEM FORMS THE MAJORITY OF BANGLADESH'S LANDMASS?",
+    "options": ["A) INDUS DELTA", "B) NILE DELTA", "C) GANGES-BRAHMAPUTRA DELTA", "D) MEKONG DELTA"],
+    "answer": "C) GANGES-BRAHMAPUTRA DELTA"
+  },
+  {
+    "question": "WHICH ORGANIZATION IS THE PRIMARY BODY OVERSEEING INTERNATIONAL FOOTBALL?",
+    "options": ["A) IOC", "B) FIFA", "C) UEFA", "D) AFC"],
+    "answer": "B) FIFA"
+  },
+  {
+    "question": "WHICH ALLIANCE IS SWEDEN AND FINLAND'S RECENT (2023-24) ACCESSION MOST ASSOCIATED WITH?",
+    "options": ["A) NATO", "B) EUROPEAN UNION", "C) BRICS", "D) ASEAN"],
+    "answer": "A) NATO"
+  },
+  {
+    "question": "WHICH BODY OF WATER IS CENTRAL TO TERRITORIAL DISPUTES IN THE SOUTH CHINA SEA?",
+    "options": ["A) ARABIAN SEA", "B) SOUTH CHINA SEA", "C) BAY OF BENGAL", "D) SEA OF JAPAN"],
+    "answer": "B) SOUTH CHINA SEA"
+  },
+  {
+    "question": "WHICH COUNTRY CURRENTLY HOLDS A PERMANENT SEAT ON THE UN SECURITY COUNCIL?",
+    "options": ["A) INDIA", "B) GERMANY", "C) CHINA", "D) BRAZIL"],
+    "answer": "C) CHINA"
+  },
+  {
+    "question": "WHICH CONTINENTAL FOOTBALL COMPETITION DOES BANGLADESH'S NATIONAL TEAM PARTICIPATE IN QUALIFIERS FOR?",
+    "options": ["A) COPA AMERICA", "B) AFC ASIAN CUP", "C) UEFA EURO", "D) CONCACAF GOLD CUP"],
+    "answer": "B) AFC ASIAN CUP"
+  },
+  {
+    "question": "WORLD CUP WINNER 2026?",
+    "options": ["A) ENGLAND", "B) SPAIN", "C) BRAZIL", "D) FRANCE"],
+    "answer": "B) SPAIN"
+  }
 ]
