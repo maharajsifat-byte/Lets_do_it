@@ -282,4 +282,16 @@ class MainApp:
             self.load_tree_data()
             messagebox.showinfo("Success", "Question updated successfully!")
 
-        QuestionFormDialog(self.root, "Update Question", on_save, initial_data=q_data) 
+        QuestionFormDialog(self.root, "Update Question", on_save, initial_data=q_data)
+
+    def delete_q_flow(self)
+        selected=self.tree.selection()
+        if not selected:
+            messagebox.showwarning("Selection required", "Please select a question to delete.")
+            return
+
+        item=self.tree.item(selected[0])
+        q_id=int(item["values"][0])
+
+        
+
