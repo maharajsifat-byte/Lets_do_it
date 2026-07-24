@@ -212,4 +212,53 @@ class MainApp:
             self.search_ent = ttk.Entry(controls_frame, width=30, font=FONT_REG)
             self.search_ent.pack(side="left", padx=(0, 10))
     
-            
+            StyledButton(controls_frame, text="Search", command=self.search_flow).pack(side="left", padx=5)
+            StyledButton(controls_frame, text="Add Question", command=self.add_q_flow).pack(side="left", padx=5)
+            StyledButton(controls_frame, text="Import PDF", command=self.import_pdf_flow).pack(side="left", padx=5)
+
+            list_frame=tk.Frame(manager_frame, bg=SIDEBAR_COLOR)
+            list_frame.pack(fill="both", expand=True)
+
+            self.tree=ttk.Treeview(list_frame, columns=("id","text","ans"), show="headings", selectmode="browse")
+            self.tree.heading("id", text="ID")
+            self.tree.heading("text", text="Question Text")
+            self.tree.heading("ans",text="Correct Answer")
+
+            self.tree.column("id", width=50, anchor="center")
+            self.tree.column("text", width=500, anchor="w")
+            self.tree.column("ans", width=180, anchor="center")
+
+            self.tree.pack(side="left", fill="both", expand=True)
+
+            scroller=ttk.Scrollbar(list_frame, orient="vertical", command=self.tree.yview)
+            scroller.pack(side="right", fill="y")
+            self.tree.configure(yscrollcommand=scroller.set)
+
+            actions_frame=tk.Frame(manager_frame, bg=BG_DARK)
+            actions_frame.pack(fill="x", pady=(15,0))
+
+            StyledButton(actions_frame, text="Update Selected", command=self.update_q_flow).pack(side="left", padx=(0,10))
+            StyledButton(actions_frame, text="Delete Selected", command=self.delete_q_flow).pack(side="left")
+
+            self.load_tree_data()
+
+    def load_tree_data(self, dataset=None):
+        for row in self.tree.get_children():
+            self.tree.delete(row)
+
+        qs=dataset if dataset is not None else self.manager.get_all_questions()
+        for q in qs:
+            self.tree.insert("", "end", values=(q['id'], q['question'], q['answer']))
+    def search_flow(self):
+        term=self.search_ent.get().strip()
+        results=self.manager.search_questions(term)
+        self.load_tree_data(results)
+
+    def add_q_flow(self):
+        def on_save(q_text, opts, ans):
+            self.manager.add_question(q_text, opts, ans)
+            self.load_tree_data()
+            messagebox.showinfo("Success", "Question added successfully!")
+
+        QuestionFormDialog(self.root, "Add New Question", on_save)
+        
