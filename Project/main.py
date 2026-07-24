@@ -390,3 +390,43 @@ class MainApp:
         grid_frame.grid_columnconfigure(0, weight=1)
         grid_frame.grid_columnconfigure(1, weight=1)
 
+    def save_data_flow(self):
+        path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON Files", "*.json")])
+        if path:
+            try:
+                data = {
+                    "questions": self.db.load("q"),
+                    "results": self.db.load("r"),
+                    "users": self.db.load("u")
+                }
+                with open(path, "w") as f:
+                    json.dump(data, f, indent=4)
+                messagebox.showinfo("Success", "Local database backup saved successfully!")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to save data: {str(e)}")
+
+    def load_data_flow(self):
+        path = filedialog.askopenfilename(filetypes=[("JSON Files", "*.json")])
+        if path:
+            try:
+                with open(path, "r") as f:
+                    data = json.load(f)
+
+                    if "questions" in data and "results" in data and "users" in data:
+                        self.db.save("q", data["questions"])
+                        self.db.save("r", data["results"])
+                        self.db.save("u", data["users"])
+
+                        self.manager = QuestionManager()
+                        messagebox.showinfo("Success", "Local database loaded successfully!")
+                        self.welcome_view()
+                    else:
+                        messagebox.showerror("Error", "Invalid backup file structure.")
+            except Exception as e:
+                    messagebox.showerror("Error", f"Failed to load data: {str(e)}")
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = MainApp(root)
+    root.mainloop()                                                                                                                                        
+
