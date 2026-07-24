@@ -1,0 +1,6 @@
+name: lets_do_it
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - -r requirements.txt
