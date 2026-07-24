@@ -61,3 +61,13 @@ class QuestionFormDialog(tk.Toplevel):
             messagebox.showerror("Error", "All fields are required")
             return
 
+        if ans_char not in ["A", "B", "C", "D"]:
+            messagebox.showerror("Error", "Correct Answer must be A, B, C, or D")
+            return
+
+        formatted_opts = [f"{chr(65+i)}) {opts[i]}" for i in range(4)]
+        formatted_ans = f"{ans_char}) {opts[ord(ans_char)-65]}"
+
+        self.on_save(q, formatted_opts, formatted_ans)
+        self.destroy()
+
