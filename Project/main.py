@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 
 from database import Database
-from manager import QuestionManagerManager
+from manager import QuestionManager
 from stats_engine import StatsEngine
 from pdf_parser import PDFparser 
 from gui_components import StyledButton, QuestionFormDialog
@@ -37,17 +37,17 @@ class MainApp:
         card.place(relx=0.5, rely=0.5, anchor="center")
 
         title_text = "STUDENT LOGIN" if mode == "login" else "CREATE ACCOUNT"
-        tk.Label(card, text=title_text, font=("Seoge UI", 22,"bold"), bg=SIDEBAR_COLOR, fg=ACCENT_COLOR).pack(pady=(10, 5))
+        tk.Label(card, text=title_text, font=("Segoe UI", 22,"bold"), bg=SIDEBAR_COLOR, fg=ACCENT_COLOR).pack(pady=(10, 5))
 
         subtitle = "Access quix engine & analytics" if mode== "login" else "Join the academic quiz dashboard"
-        tk.Label(card, text=subtitle, font=("Seoge UI", 10), bg=SIDEBAR_COLOR, fg="grey").pack(pady=(0,25))
+        tk.Label(card, text=subtitle, font=("Segoe UI", 10), bg=SIDEBAR_COLOR, fg="grey").pack(pady=(0,25))
 
-        tk.Label(card, text="Username", font=("Seoge UI", 10, "bold"), bg=SIDEBAR_COLOR, fg=TEXT_WHITE).pack(anchor="W", pady=(5,2))
-        u_ent = ttk.Entry(card, width=35, font=("Seoge UI", 11))
+        tk.Label(card, text="Username", font=("Segoe UI", 10, "bold"), bg=SIDEBAR_COLOR, fg=TEXT_WHITE).pack(anchor="w", pady=(5,2))
+        u_ent = ttk.Entry(card, width=35, font=("Segoe UI", 11))
         u_ent.pack(pady=(0,15))
 
-        tk.Label(card, text="Password", font=("Seoge UI", 10, "bold"), bg=SIDEBAR_COLOR, fg=TEXT_WHITE).pack(anchor="w", pady=(5,2))
-        p_ent = ttk.Entry(card, width=35, show="*", font=("Seoge UI", 11))
+        tk.Label(card, text="Password", font=("Segoe UI", 10, "bold"), bg=SIDEBAR_COLOR, fg=TEXT_WHITE).pack(anchor="w", pady=(5,2))
+        p_ent = ttk.Entry(card, width=35, show="*", font=("Segoe UI", 11))
         p_ent.pack(pady=(0,15))
 
         def auth_action():
@@ -77,7 +77,7 @@ class MainApp:
 
         link_txt ="New user? Register here" if mode=="login" else "Already have an account? Sign In"
         link_btn=tk.Button(card, text=link_txt, bg=SIDEBAR_COLOR, fg=ACCENT_COLOR, activebackground=SIDEBAR_COLOR,
-                           activeforeground=C_HOVER, bd=0, font=("Seoge UI", 10, "underline"),
+                           activeforeground=C_HOVER, bd=0, font=("Segoe UI", 10, "underline"),
                            command=lambda: self.show_auth_screen("register" if mode=="login" else "login"),
                            cursor="hand2")
         link_btn.pack()
@@ -89,7 +89,7 @@ class MainApp:
         side.pack(side="left", fill="y")
         side.pack_propagate(False)
 
-        tk.Label(side, text="UNIVERSITY", font=("Seoge UI", 18, "bold"), fg=ACCENT_COLOR, bg="#020617", pady=30).pack()
+        tk.Label(side, text="UNIVERSITY", font=("Segoe UI", 18, "bold"), fg=ACCENT_COLOR, bg="#020617", pady=30).pack()
 
         menu=[
              ("🏠  Home", self.welcome_view), 
@@ -104,7 +104,7 @@ class MainApp:
         ]
 
         for t, c in menu:
-            btn=tk.Button(side, text=t, font=("Seoge UI", 11, "bold"), bg="#020617", fg="white", bd=0,
+            btn=tk.Button(side, text=t, font=("Segoe UI", 11, "bold"), bg="#020617", fg="white", bd=0,
                           anchor="w", padx=30, pady=12, command=c, cursor="hand2",
                           activebackground="#1E293B", activeforeground=ACCENT_COLOR)
             btn.pack(fill="x")
@@ -123,10 +123,10 @@ class MainApp:
         welcome_frame.pack(expand=True, fill="both")
 
         tk.Label(welcome_frame, text=f"Welcome Back, {self.current_user}!",
-                 font=("Seoge UI", 28, "bold"), bg=BG_DARK, fg=TEXT_WHITE).pack(pady=(220,10))
+                 font=("Segoe UI", 28, "bold"), bg=BG_DARK, fg=TEXT_WHITE).pack(pady=(220,10))
 
         tk.Label(welcome_frame, text="Varsity Quiz & Academic Result System",
-                 font=("Seoge UI", 12), bg=BG_DARK, fg="grey").pack()
+                 font=("Segoe UI", 12), bg=BG_DARK, fg="grey").pack()
 
     def quiz_view(self):
         self.quiz_data=self.db.load("q")
@@ -146,12 +146,12 @@ class MainApp:
         progress_frame.pack(pady=(40,0), padx=50, fill="x")
 
         tk.Label(progress_frame, text=f"Question {self.q_idx+1} of {len(self.quiz_data)}",
-                 font=("Seoge UI", 10, "bold"), bg=BG_DARK, fg=ACCENT_COLOR).pack(side="left")
+                 font=("Segoe UI", 10, "bold"), bg=BG_DARK, fg=ACCENT_COLOR).pack(side="left")
 
         card=tk.Frame(self.content, bg=CARD_BG, padx=40, pady=40)
         card.pack(pady=20, padx=50, fill="both", expand=True)
 
-        tk.Label(card, text=q['question'], font=("Seoge UI", 15, "bold"), bg=CARD_BG, fg=TEXT_WHITE, wraplength=700, justify="left").pack(anchor="w", pady=(0,25))
+        tk.Label(card, text=q['question'], font=("Segoe UI", 15, "bold"), bg=CARD_BG, fg=TEXT_WHITE, wraplength=700, justify="left").pack(anchor="w", pady=(0,25))
 
         self.selected_option=tk.StringVar(value="")
         for o in q['options']:
@@ -184,7 +184,7 @@ class MainApp:
                 "name": self.current_user,
                 "score": self.score,
                 "total": len(self.quiz_data),
-                "data": datetime.now().strftime("%Y-%m-%d %H:%M")
+                "date": datetime.now().strftime("%Y-%m-%d %H:%M")
             })
             self.db.save("r",res)
 
