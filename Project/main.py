@@ -284,7 +284,7 @@ class MainApp:
 
         QuestionFormDialog(self.root, "Update Question", on_save, initial_data=q_data)
 
-    def delete_q_flow(self)
+    def delete_q_flow(self):
         selected=self.tree.selection()
         if not selected:
             messagebox.showwarning("Selection required", "Please select a question to delete.")
