@@ -30,6 +30,7 @@ class QuestionFormDialog(tk.Toplevel):
         self.q_text = tk.Text(main_frame, height=4, width=50, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
         self.q_text.pack(fill="x", pady=(0, 15))
         self.opt_entries = []
+
         for i in range(4):
             tk.Label(main_frame, text=f"Option {chr(65+i)}:", bg=BG_DARK, fg=TEXT_WHITE, font=FONT_REG).pack(anchor="w", pady=(0, 2))
             ent = tk.Entry(main_frame, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
@@ -38,3 +39,15 @@ class QuestionFormDialog(tk.Toplevel):
             tk.Label(main_frame, text="Correct Option (A, B, C, or D):", bg=BG_DARK, fg=TEXT_WHITE, font=FONT_REG).pack(anchor="w", pady=(0, 2))
         self.ans_entry = tk.Entry(main_frame, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
         self.ans_entry.pack(fill="x", pady=(0, 20))
+
+        if self.initial_data:
+            self.q_text.insert("1.0", self.initial_data["question"])
+            for i, opt in enumerate(self.initial_data["options"]):
+                clean_opt = opt[3:].strip() if opt.startswith(("A)", "B)", "C)", "D)")) else opt
+                self.opt_entries[i].insert(0, clean_opt)
+            
+            ans_val = self.initial_data["answer"]
+            clean_ans = ans_val[0] if ans_val and ans_val[1:3] == ") " else ans_val
+            self.ans_entry.insert(0, clean_ans)
+
+        StyledButton(main_frame, text="Save Question", command=self.save_action).pack(anchor="e")
