@@ -14,7 +14,7 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         activate-environment: ci
-        python-version: '3.10'
+        python-version: '3.11'
         auto-activate-base: false
     - name: Install dependencies
       run: |
