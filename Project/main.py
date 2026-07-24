@@ -291,7 +291,102 @@ class MainApp:
             return
 
         item=self.tree.item(selected[0])
-        q_id=int(item["values"][0])
+        q_id = int(item["values"][0])
 
-        
+        confirm = messagebox.askyesno("Confirm Delete", f"Are you sure you want to delete question ID {q_id}?")
+        if confirm:
+            self.manager.delete_question(q_id)
+            self.load_tree_data()
+            messagebox.showinfo("Success","Question deletd successfully!")
+
+    def import_pdf_flow(self):
+        path=filedialog.askopenfilename(filetypes=[("PDF Documents", "*.pdf")])
+        if path:
+            new_qs = PDFProcessor.extract_mcqs(path)
+            if new_qs:
+                qs=self.db.load("q")
+                qs.extend(new_qs)
+                self.db.save("q",qs)
+                self.load_tree_data()
+                messagebox.showinfo("Success", f"Successfully imported {len(new_qs)} questions!")
+            else:
+                messagebox.showerror("Format Error", "Could not parse questions. Ensure the PDF contains structured MCQs.")
+
+    def leaderboard_view(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+        f=tk.Frame(self.content, bg=BG_DARK, padx=30, pady=30)
+        f.pack(fill="both", expand=True)
+
+        tk.Label(f, text="GLOBAL LEADERBOARD", font=("Segoe UI", 18, "bold"),bg=BG_DARK, fg=TEXT_WHITE).pack(pady=(0,20), anchor="w")
+
+        table_frame=tk.Frame(f, bg=SIDEBAR_COLOR)
+        table_frame.pack(fill="both",expand=True)
+
+        tbl=ttk.Treeview(table_frame, columns=("rank","player","score","percentage","date"),show="headings")
+        tbl.heading("rank",text="Rank")
+        tbl.heading("player", text="Player Name")
+        tbl.heading("score", text="Score Obtained")
+        tbl.heading("percentage", text="Success Rate")
+        tbl.heading("date", text="Attempt Date & Time")
+
+        tbl.column("rank", width=80, anchor="center")
+        tbl.column("player", width=200, anchor="center")
+        tbl.column("score", width=150, anchor="center")
+        tbl.column("percentage", width=150, anchor="center")
+        tbl.column("date", width=220,anchor="center")
+
+        tbl.pack(side="left", fill="both", expand=True)
+
+        scroller=ttk.Scrollbar(table_frame, orient="vertical",command=tbl.yview)
+        scroller.pack(side="right", fill="y")
+        tbl.configure(yscrollcommand=scroller.set)
+
+        results=self.db.load("r")
+
+        sorted_results=sorted(results, key=lambda x: (x["score"]/x["total"]if x["total"]>0 else 0),reverse=True)
+
+        for index, r in enumerate(sorted_results):
+            pct=(r["score"]/r["total"])*100 if r["total"]>0 else 0
+            tbl.insert("", "end", values=(index+1, r["name"], f"{r['score']}/{r['total']}", f"{pct:.1f}%", r["date"]))
+
+    def stats_view(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+        results=self.db.load("r")
+        rep=StatsEngine.calculate_metrics(results)
+
+        if not rep:
+            empty_card=tk.Frame(self.content, bg=CARD_BG, padx=50, pady=50)
+            empty_card.place(relx=0.5, rely=0.5, anchor="center")
+            tk.Label(empty_card, text="No Performance Data Found", font=("Segoe UI", 16, "bold"), bg=CARD_BG, fg=TEXT_WHITE).pack(pady=(0, 10))
+            tk.Label(empty_card, text="Attempt a quiz session first to generate academic metrics.", font=("Segoe UI", 11), bg=CARD_BG, fg="grey", wraplength=350, justify="center").pack()
+            return
+            
+        f = tk.Frame(self.content, bg=CARD_BG, padx=40, pady=40)
+        f.place(relx=0.5, rely=0.5, anchor="center", width=650)
+            
+        tk.Label(f, text="ACADEMIC METRICS DASHBOARD", font=("Segoe UI", 18, "bold"), bg=CARD_BG, fg=ACCENT_COLOR).pack(pady=(0, 25))
+            
+        grid_frame = tk.Frame(f, bg=CARD_BG)
+        grid_frame.pack(fill="x", pady=10)
+            
+        metrics_list = [
+            ("Total Attempts Registered", f"{rep['total_attempts']}"),
+            ("Average Score Obtained", f"{rep['average_score']:.2f}"),
+            ("Maximum Score Registered", f"{rep['max_score']}"),
+            ("Minimum Score Registered", f"{rep['min_score']}"),
+            ("Median Score Achieved", f"{rep['median_score']:.2f}"),
+            ("Standard Deviation (SD)", f"{rep['std_deviation']:.2f}"),
+            ("Aggregate Pass Percentage", f"{rep['pass_percentage']:.2f}%")
+        ]
+            
+        for row, (label, val) in enumerate(metrics_list):
+            tk.Label(grid_frame, text=label.upper(), font=("Segoe UI", 10, "bold"), bg=CARD_BG, fg="grey", anchor="w").grid(row=row, column=0, sticky="w", pady=8, padx=(10, 30))
+            tk.Label(grid_frame, text=val, font=("Consolas", 13, "bold"), bg=CARD_BG, fg=TEXT_WHITE, anchor="e").grid(row=row, column=1, sticky="e", pady=8, padx=(30, 10))
+            
+        grid_frame.grid_columnconfigure(0, weight=1)
+        grid_frame.grid_columnconfigure(1, weight=1)
 
