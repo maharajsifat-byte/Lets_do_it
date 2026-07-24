@@ -51,3 +51,4 @@ class QuestionFormDialog(tk.Toplevel):
             self.ans_entry.insert(0, clean_ans)
 
         StyledButton(main_frame, text="Save Question", command=self.save_action).pack(anchor="e")
+
