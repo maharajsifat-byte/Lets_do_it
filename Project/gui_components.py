@@ -52,3 +52,12 @@ class QuestionFormDialog(tk.Toplevel):
 
         StyledButton(main_frame, text="Save Question", command=self.save_action).pack(anchor="e")
 
+    def save_action(self):
+        q = self.q_text.get("1.0", "end-1c").strip()
+        opts = [e.get().strip() for e in self.opt_entries]
+        ans_char = self.ans_entry.get().strip().upper()
+
+        if not q or any(not o for o in opts) or not ans_char:
+            messagebox.showerror("Error", "All fields are required")
+            return
+
