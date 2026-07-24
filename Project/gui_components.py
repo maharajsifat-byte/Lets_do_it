@@ -23,3 +23,10 @@ class StyledButton(tk.Button):
              self.on_save = on_save
              self.initial_data = initial_data
              self.setup_ui()
+           def setup_ui(self):
+                main_frame = tk.Frame(self, bg=BG_DARK, padx=20, pady=20)
+                main_frame.pack(fill="both", expand=True)
+                tk.Label(main_frame, text="Question text:", bg=BG_DARK, fg=TEXT_WHITE, font=FONT_REG).pack(anchor="w", pady=(0, 5))
+                self.q_text = tk.Text(main_frame, height=4, width=50, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
+                self.q_text.pack(fill="x", pady=(0, 15))
+                
