@@ -29,3 +29,9 @@ class QuestionFormDialog(tk.Toplevel):
         tk.Label(main_frame, text="Question text:", bg=BG_DARK, fg=TEXT_WHITE, font=FONT_REG).pack(anchor="w", pady=(0, 5))
         self.q_text = tk.Text(main_frame, height=4, width=50, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
         self.q_text.pack(fill="x", pady=(0, 15))
+        self.opt_entries = []
+        for i in range(4):
+            tk.Label(main_frame, text=f"Option {chr(65+i)}:", bg=BG_DARK, fg=TEXT_WHITE, font=FONT_REG).pack(anchor="w", pady=(0, 2))
+            ent = tk.Entry(main_frame, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
+            ent.pack(fill="x", pady=(0, 10))
+            self.opt_entries.append(ent)
