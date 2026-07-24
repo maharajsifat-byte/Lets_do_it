@@ -35,3 +35,6 @@ class QuestionFormDialog(tk.Toplevel):
             ent = tk.Entry(main_frame, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
             ent.pack(fill="x", pady=(0, 10))
             self.opt_entries.append(ent)
+            tk.Label(main_frame, text="Correct Option (A, B, C, or D):", bg=BG_DARK, fg=TEXT_WHITE, font=FONT_REG).pack(anchor="w", pady=(0, 2))
+        self.ans_entry = tk.Entry(main_frame, font=FONT_REG, bg=SIDEBAR_COLOR, fg=TEXT_WHITE, bd=0)
+        self.ans_entry.pack(fill="x", pady=(0, 20))
